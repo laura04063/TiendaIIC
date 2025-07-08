@@ -14,28 +14,28 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 public class ProjectConfig implements WebMvcConfigurer {
 
     @Bean
-    public LocaleResolver localeResolver() {
-        var slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.getDefault());
-        slr.setLocaleAttributeName("session.current.locale");
-        slr.setTimeZoneAttributeName("session.current.timezone");
-        return slr;
+    public LocaleResolver localeResolver(){
+      var slr  = new SessionLocaleResolver();
+      slr.setDefaultLocale(Locale.getDefault());
+      slr.setLocaleAttributeName("session.current.locale");
+      slr.setTimeZoneAttributeName("session.current.timezone");
+      return slr;
     }
-
+    
     @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor() {
+    public LocaleChangeInterceptor localeChangeInterceptor(){
         var lci = new LocaleChangeInterceptor();
         lci.setParamName("lang");
         return lci;
     }
-
+    
     @Override
-    public void addInterceptors(InterceptorRegistry registro) {
+    public void addInterceptors(InterceptorRegistry registro){
         registro.addInterceptor(localeChangeInterceptor());
     }
-
+    
     @Bean("messageSource")
-    public MessageSource messageSource() {
+    public MessageSource messageSource(){
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames("messages");
         messageSource.setDefaultEncoding("UTF-8");
