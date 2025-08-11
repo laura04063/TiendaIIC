@@ -8,7 +8,7 @@
     <body>
         <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
         <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
-            <div class="container">
+            <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
                 <div class="row">
                     <div class="col-md-3">   
                         <button 
@@ -82,7 +82,7 @@
             </div>
         </section>
 
-        <!-- 3 Sección principal para mostrar la informaccion de la entidad producto -->​
+        <!-- 3 Sección principal para mostrar la informaccion de la entidad producto -->
         <section th:fragment="listadoProductos" id="productos">​
             <div class="container">​
                 <div class="row">​
@@ -106,17 +106,17 @@
                                         <tr th:each="producto, contador : ${productos}">​
                                             <td class="text-center">[[${contador.count}]]</td>​
                                             <td class="fs-6">[[${producto.descripcion}]]</td>​
-                                        <td class="text-end">[[${#numbers.formatDecimal(producto.precio, 1, 'DEFAULT', 2, 'DEFAULT')}]]</td>​
+                                            <td class="text-end">[[${#numbers.formatDecimal(producto.precio, 1, 'DEFAULT', 2, 'DEFAULT')}]]</td>​
                                             <td class="text-center">[[${producto.existencias}]]</td>​
                                             <td class="text-end">[[${#numbers.formatDecimal(producto.precio*producto.existencias, 1, 'DEFAULT', 2, 'DEFAULT')}]]</td>​
-             <td  class="text-center" th:text="${producto.activo} ? 'Activa' : 'Inactiva'"/>​
+                                            <td  class="text-center" th:text="${producto.activo} ? 'Activa' : 'Inactiva'"/>​
                                             <td>[[${producto.categoria.descripcion}]]</td>​
                                             <td><a th:href="@{/producto/eliminar/}+${producto.idProducto}"​
-                                                   class="btn btn-danger">​
+                                                   class="btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')">​
                                                     <i class="fas fa-trash"></i> [[#{accion.eliminar}]]</a></td>​
                                             <td>​
                                                 <a th:href="@{/producto/modificar/}+${producto.idProducto}"​
-                                                   class="btn btn-success">​
+                                                   class="btn btn-success" sec:authorize="hasRole('ROLE_ADMIN')">​
                                                     <i class="fas fa-pencil"></i> [[#{accion.actualizar}]]</a></td></tr>​
                                     </tbody>​
                                 </table>​
@@ -137,7 +137,6 @@
                 </div>​
             </div>​
         </section>​
-
 
         <!-- 4 Fragmento que se utiliza en la página modifca.html -->
         <section th:fragment="editarProducto">
@@ -163,7 +162,7 @@
                                             <div class="card-body">
                                             <div class="mb-3">
                                                 <label for="idCategoria">[[#{producto.categoria}]]</label>
-                                                <select name="idCategoria" th:field="*{categoria.idCategoria}"
+                                                    <select name ="idCategoria" th:field="*{categoria.idCategoria}" 
                                                     class="form-select">
                                                     <option th:each="c : ${categorias}" th:value="${c.idCategoria}" th:text="${c.descripcion}">
                                                     </option>    
@@ -238,4 +237,3 @@
         </section>
     </body>
 </html>
-

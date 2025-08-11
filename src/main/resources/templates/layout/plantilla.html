@@ -4,12 +4,12 @@
     <head th:fragment="head">
         <title>Techshop</title>
         <meta charset="UTF-8"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-        <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
-        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>  
-        <script th:src="@{/js/rutinas.js}"></script>
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+            <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+            <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+            <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+            <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+            <script th:src="@{/js/rutinas.js}"></script>
     </head>
     <body>
         <header th:fragment="header" class="header">
@@ -20,7 +20,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <ul class="navbar-nav">
+                        <ul class="navbar-nav" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/categoria/listado}">[[#{plantilla.categorias}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/producto/listado}">[[#{plantilla.productos}]]</a></li>                           
                             <li class="nav-item dropdown">
@@ -32,6 +32,9 @@
                                 <ul class="dropdown-menu dropdown-menu-dark">
                                     <li><a class="dropdown-item"  th:href="@{/pruebas/listado}">[[#{plantilla.asociaciones}]]</a></li>
                                     <li><a class="dropdown-item"  th:href="@{/pruebas/listado2}">[[#{plantilla.consultas}]]</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/pruebas/listado3}">[[#{plantilla.consultas2}]]</a></li>
+
+
                                 </ul>
                             </li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/usuario/listado}">[[#{plantilla.usuarios}]]</a></li>
@@ -45,6 +48,29 @@
                                 </ul>
                             </li>
                         </ul>
+
+                        <div>
+                            <ul class="navbar-nav" sec:authorize="!isAuthenticated()">
+                                <li class="nav-item px-2">
+                                    <a class="nav-menu-link nav-link" th:href="@{/login}">
+                                        <i class='fas fa-sign-in-alt'></i>
+                                    </a>
+                                </li>                            
+                            </ul>
+                            <ul class="navbar-nav" sec:authorize="isAuthenticated()">
+                                <li class="nav-item text-white my-auto">
+                                    <img th:src="@{${session.usuarioImagen}}" alt="your image" height="40" class="rounded-circle"/>
+                                    <span sec:authentication='name'>Santi</span>
+                                </li>
+                                <li class="nav-item my-auto">
+                                    <form method="post" th:action="@{/logout}">
+                                        <button class="btn btn-dark">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    </form>
+                                </li>                            
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -57,15 +83,15 @@
                     </div>
                 </div>
             </section>
-        </header>  
+        </header>
         <footer th:fragment="footer" class="bg-info text-white mt-5 p-2">
             <div class="container">
                 <div class="col">
-                    <p class="lead text-center">
-                        &COPY;[[#{plantilla.derechos}]]
-                    </p>
+                    <p class="lead text-center">&COPY; [[#{plantilla.derechos}]]</p>
                 </div>
             </div>
         </footer>
+        </footer>
+
     </body>
 </html>

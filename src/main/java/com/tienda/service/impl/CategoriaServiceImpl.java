@@ -41,4 +41,15 @@ public class CategoriaServiceImpl implements CategoriaService {
     public void delete(Categoria categoria) {
         categoriaDao.delete(categoria);
     }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<Categoria> findByDescripcionContainingIgnoreCaseOrderByDescripcion(String descripcion) {
+        return categoriaDao.findByDescripcionContainingIgnoreCaseOrderByDescripcion(descripcion);
+    }
+    
+    @Override
+    public List<Categoria> filtrarPorNombre(String descripcion) {
+        return categoriaDao.filtrarPorNombre(descripcion);
+    }
 }

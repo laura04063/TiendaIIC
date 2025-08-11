@@ -27,8 +27,6 @@ public class CategoriaController {
       return "/categoria/listado";
     }
     
-       
-
     @Autowired
     private FirebaseStorageServiceImpl firebaseStorageService;
     
